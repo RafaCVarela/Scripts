@@ -1,1 +1,76 @@
+"""
+    Script - Rotina de estudo
 
+    Script simples que auxilia na rotina de estudo,
+    nele temos:
+        - Cronômetro;
+        - Alarme (caminho até o arquivo alarme);
+        - Listas contendo os tempos e nome da etapa;
+    Ele converte minutos para segundos!!!
+    A cada etapa ele cronometra um tempo prédefinido, depois
+    ele toca um alarme e entra num tempo de pausa.
+
+    Feito por: Rafael Costa Varela
+"""
+
+
+import time
+import os
+
+def limpar():
+
+    os.system('cls')
+
+
+def alarme(caminho_audio):
+
+    for i in range(5):
+        os.system(f'start {caminho_audio}')
+        time.sleep(2)
+        os.system('taskkill /IM wmplayer.exe /F')
+
+
+def cronometro(listaTempo, listaEtapa, indice, caminho):
+
+    duracao = listaTempo[indice]
+    tempo = duracao * 60
+
+    print(f"{listaEtapa[indice]} de {duracao} minutos.\n")
+
+    inicio = time.time()
+
+    while True:
+        tempo_passado = time.time() - inicio
+        if tempo_passado >= tempo:
+            break
+
+    print(f"O tempo de {listaEtapa[indice]} acabou!!\n")
+    alarme(caminho)
+    input("Pressione algo para continuar...\n\n")
+    limpar()
+
+    duracao_pausa = 5
+    tempo_pausa = 5 * 60
+
+    print(f"A pausa de {duracao_pausa} minutos.\n")
+
+    time.sleep(tempo_pausa)
+    
+    print(f"O tempo de pausa acabou!!\n")
+    alarme(caminho)
+    input("Pressione algo para continuar...\n\n")
+    limpar()
+
+
+caminhoAudio = "C:\\Documentos\\Programação\\Python\\Rotina_de_estudo\\alarme-incendie-mp3.mp3"
+etapa = ['Aquecimento', 'Estudo Focado', 'Resolução de Questões', 'Revisão e Anotações Finais']
+tempo = [10, 20, 25, 5]
+
+materia = input("Digite o nome da materia a ser estudada: ")
+input("Pressione algo para continuar...\n\n")
+
+for i in range(4):
+
+    cronometro(tempo, etapa, i, caminhoAudio)
+
+print(f"O plano de estudo de {materia} completo!")
